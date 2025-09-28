@@ -1,16 +1,34 @@
-# React + Vite
+# SafeSchools
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern React + Vite web app for school safety, featuring:
+- Login and dashboard for School Authority, Parent, and Student roles
+- Location tracking (OpenStreetMap)
+- Silent SOS (triple-tap button)
+- Flag bullying/concern reporting
+- Safe status notification system
+- RFID attendance tracking
+- Material UI styling and branding
 
-Currently, two official plugins are available:
+## Getting Started
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+1. Install dependencies:
+   ```
+   npm install
+   ```
+2. Start the development server:
+   ```
+   npm run dev
+   ```
 
-## React Compiler
+## Deployment
 
-The React Compiler is not enabled on this template. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+See the guide in this repo for deploying to GitHub Pages.
 
-## Expanding the ESLint configuration
+## Project Structure
+- `src/` — Main React source code
+- `public/` — Static assets
+- `README.md` — Project info
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+Built with React, Vite, Material UI, and OpenStreetMap.
