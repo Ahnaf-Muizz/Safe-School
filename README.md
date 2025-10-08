@@ -9,6 +9,9 @@ A modern React + Vite web app for school safety, featuring:
 - RFID attendance tracking
 - Material UI styling and branding
 
+## Website Link
+https://ahnaf-muizz.github.io/Safe-School/
+
 ## Getting Started
 
 1. Install dependencies:
