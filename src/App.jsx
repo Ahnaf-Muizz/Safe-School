@@ -8,8 +8,11 @@ import EmergencyIcon from '@mui/icons-material/ReportProblem';
 import FlagIcon from '@mui/icons-material/Flag';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
+import 'leaflet-defaulticon-compatibility';
+import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css';
+import WelcomePage from './WelcomePage.jsx';
 
-function Login({ onLogin }) {
+function Login({ onLogin, onBack }) {
   const [role, setRole] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -49,9 +52,19 @@ function Login({ onLogin }) {
       transition: 'background 0.8s',
     }}>
       <Container maxWidth="xs" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
-        <Paper elevation={6} sx={{ p: 4, width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', bgcolor: '#181818', color: '#fff', borderRadius: 4, boxShadow: '0 8px 32px 0 rgba(0,0,0,0.4)' }}>
+        <Paper elevation={6} sx={{ p: 4, width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', bgcolor: '#181818', color: '#fff', borderRadius: 4, boxShadow: '0 8px 32px 0 rgba(0,0,0,0.4)', position: 'relative' }}>
+          {onBack && (
+            <Button onClick={onBack} size="small" sx={{ position: 'absolute', left: 16, top: 16, color: '#bfe9ff', fontWeight: 600, textTransform: 'none' }}>
+              ← Back
+            </Button>
+          )}
           <img src={logo} alt="Safe Schools Logo" style={{ width: 150, height: 150, marginBottom: 4 }} />
-          <Typography variant="h4" align="center" gutterBottom sx={{ fontWeight: 700, color: '#fff', letterSpacing: 1 }}>Safe School Login</Typography>
+          <Typography variant="h4" align="center" gutterBottom sx={{
+            fontWeight: 700,
+            color: '#fff',
+            letterSpacing: 1,
+            fontSize: { xs: '1.5rem', sm: '2.2rem' },
+          }}>SafeSchool Login</Typography>
           <Box sx={{ width: '100%', mb: 2 }}>
               <Typography variant="subtitle2" align="center" sx={{ color: '#bfe9ff', fontWeight: 500, mb: 1, letterSpacing: 0.5, fontSize: '0.95rem' }}>
                 Select your role:
@@ -60,7 +73,7 @@ function Login({ onLogin }) {
               value={role}
               onChange={(_, v) => setRole(v)}
               centered
-              sx={{ width: '100%', bgcolor: 'rgba(34,34,34,0.7)', borderRadius: 2, boxShadow: '0 2px 8px 0 rgba(191,233,255,0.08)', mb: 1 }}
+              sx={{ mb: 3, width: '100%', minHeight: { xs: 36, sm: 48 }, bgcolor: 'rgba(34,34,34,0.7)', borderRadius: 2, boxShadow: '0 2px 8px 0 rgba(191,233,255,0.08)', }}
               textColor="inherit"
               indicatorColor="primary"
               TabIndicatorProps={{ style: { background: 'linear-gradient(90deg,#ff6e7f,#bfe9ff)' } }}
@@ -73,7 +86,21 @@ function Login({ onLogin }) {
           <TextField label="Username" fullWidth margin="normal" value={username} onChange={e => setUsername(e.target.value)} InputLabelProps={{ style: { color: '#bbb' } }} inputProps={{ style: { color: '#fff' } }} sx={{ bgcolor: '#222', borderRadius: 1 }} />
           <TextField label="Password" type="password" fullWidth margin="normal" value={password} onChange={e => setPassword(e.target.value)} InputLabelProps={{ style: { color: '#bbb' } }} inputProps={{ style: { color: '#fff' } }} sx={{ bgcolor: '#222', borderRadius: 1 }} />
           {error && <Typography variant="body2" sx={{ color: '#ff1744', mt: 1 }}>{error}</Typography>}
-          <Button variant="contained" color="primary" fullWidth sx={{ mt: 2, fontWeight: 600, fontSize: '1.1rem', py: 1.2, borderRadius: 2, boxShadow: '0 2px 8px 0 rgba(0,0,0,0.2)' }} disabled={!role || !username || !password} onClick={handleLogin}>
+          <Button
+            variant="contained"
+            color="primary"
+            fullWidth
+            sx={{
+              mt: 2,
+              fontWeight: 600,
+              fontSize: { xs: '1rem', sm: '1.1rem' },
+              py: { xs: 1, sm: 1.2 },
+              borderRadius: 2,
+              boxShadow: '0 2px 8px 0 rgba(0,0,0,0.2)',
+            }}
+            disabled={!role || !username || !password}
+            onClick={handleLogin}
+          >
             Login
           </Button>
           <Box sx={{ mt: 2, color: '#bbb', fontSize: '0.95em', textAlign: 'center' }}>
@@ -146,7 +173,16 @@ function Dashboard({ role, onLogout }) {
         <Typography variant="body2" sx={{ color: '#bfe9ff', fontWeight: 500, mt: 1 }}>
           Real-time location of student detected: Texas Tech University Innovation Hub
         </Typography>
-        <Box sx={{ mt: 2, width: '100%', maxWidth: 400, height: 300, borderRadius: 2, overflow: 'hidden', boxShadow: '0 2px 8px 0 rgba(0,0,0,0.4)', position: 'relative' }}>
+        <Box sx={{
+  mt: 2,
+  width: '100%',
+  maxWidth: { xs: 320, sm: 400 },
+  height: { xs: 200, sm: 300 },
+  borderRadius: 2,
+  overflow: 'hidden',
+  boxShadow: '0 2px 8px 0 rgba(0,0,0,0.4)',
+  position: 'relative',
+}}>
           <MapContainer center={location} zoom={17} style={{ width: '100%', height: '100%' }} scrollWheelZoom={false}>
             <TileLayer
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -242,8 +278,20 @@ function Dashboard({ role, onLogout }) {
       )}
       {/* Notification bar for student on right side */}
       {role === 'student' && (
-        <Box sx={{ position: 'fixed', top: 80, right: 0, zIndex: 9999, height: 'auto', width: 320, display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
-          <Paper elevation={6} sx={{ p: 2, bgcolor: '#00e676', color: '#181818', borderRadius: '8px 0 0 8px', fontWeight: 700, boxShadow: '0 4px 16px 0 rgba(0,230,118,0.4)', minWidth: 240, textAlign: 'left', display: 'flex', alignItems: 'center' }}>
+        <Box sx={{
+  position: { xs: 'static', sm: 'fixed' },
+  top: { xs: 0, sm: 80 },
+  right: { xs: 0, sm: 0 },
+  zIndex: 9999,
+  width: { xs: '100%', sm: 320 },
+  maxWidth: 360,
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: { xs: 'center', sm: 'flex-end' },
+  px: { xs: 0, sm: 2 },
+  mb: { xs: 2, sm: 0 },
+}}>
+          <Paper elevation={6} sx={{ p: 2, bgcolor: '#00e676', color: '#181818', borderRadius: { xs: 2, sm: '8px 0 0 8px' }, fontWeight: 700, boxShadow: '0 4px 16px 0 rgba(0,230,118,0.4)', minWidth: 240, textAlign: 'left', display: 'flex', alignItems: 'center', width: { xs: '100%', sm: 'auto' } }}>
             <CheckCircleIcon sx={{ color: '#fff', mr: 2, fontSize: 32 }} />
             <Box>
               <Typography variant="body1" sx={{ fontWeight: 700 }}>Safety Confirmation Needed</Typography>
@@ -258,7 +306,19 @@ function Dashboard({ role, onLogout }) {
   // Persistent notification bar for parent and school tabs
   const ParentNotificationBar = () => (
     role === 'parent' && (
-      <Box sx={{ position: 'fixed', top: 80, right: 0, zIndex: 9999, height: 'auto', width: 320, display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+      <Box sx={{
+  position: { xs: 'static', sm: 'fixed' },
+  top: { xs: 0, sm: 80 },
+  right: { xs: 0, sm: 0 },
+  zIndex: 9999,
+  width: { xs: '100%', sm: 320 },
+  maxWidth: 360,
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: { xs: 'center', sm: 'flex-end' },
+  px: { xs: 0, sm: 2 },
+  mb: { xs: 2, sm: 0 }, // Add margin below notification bar on mobile
+}}>
         <Paper elevation={6} sx={{ p: 2, bgcolor: '#ff1744', color: '#181818', borderRadius: '8px 0 0 8px', fontWeight: 700, boxShadow: '0 4px 16px 0 #ff174480', minWidth: 240, textAlign: 'left', display: 'flex', alignItems: 'center', mb: 2 }}>
           <EmergencyIcon sx={{ color: '#fff', mr: 2, fontSize: 32 }} />
           <Box>
@@ -279,7 +339,19 @@ function Dashboard({ role, onLogout }) {
 
   const SchoolNotificationBar = () => (
     role === 'school' && (
-      <Box sx={{ position: 'fixed', top: 80, right: 0, zIndex: 9999, height: 'auto', width: 320, display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+      <Box sx={{
+  position: { xs: 'static', sm: 'fixed' },
+  top: { xs: 0, sm: 80 },
+  right: { xs: 0, sm: 0 },
+  zIndex: 9999,
+  width: { xs: '100%', sm: 320 },
+  maxWidth: 360,
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: { xs: 'center', sm: 'flex-end' },
+  px: { xs: 0, sm: 2 },
+  mb: { xs: 2, sm: 0 }, // Add margin below notification bar on mobile
+}}>
         <Paper elevation={6} sx={{ p: 2, bgcolor: '#ff1744', color: '#181818', borderRadius: '8px 0 0 8px', fontWeight: 700, boxShadow: '0 4px 16px 0 #ff174480', minWidth: 240, textAlign: 'left', display: 'flex', alignItems: 'center', mb: 2 }}>
           <EmergencyIcon sx={{ color: '#fff', mr: 2, fontSize: 32 }} />
           <Box>
@@ -336,7 +408,7 @@ function Dashboard({ role, onLogout }) {
         <AppBar position="static" sx={{ mb: 2, bgcolor: '#181818', color: '#fff', borderRadius: 2, boxShadow: '0 8px 32px 0 rgba(0,0,0,0.4)', width: '100%' }}>
           <Toolbar>
             <img src={logo} alt="Safe Schools Logo" style={{ width: 72, height: 72, marginRight: 24 }} />
-            <Typography variant="h5" sx={{ flexGrow: 1, fontWeight: 700, color: '#fff', letterSpacing: 1 }}>Safe School Dashboard</Typography>
+            <Typography variant="h5" sx={{ flexGrow: 1, fontWeight: 700, color: '#fff', letterSpacing: 1 }}>SafeSchool Dashboard</Typography>
             <Button color="inherit" onClick={onLogout} sx={{ fontWeight: 600, fontSize: '1rem', borderRadius: 2 }}>Logout</Button>
           </Toolbar>
         </AppBar>
@@ -355,10 +427,10 @@ function Dashboard({ role, onLogout }) {
           backdropFilter: 'blur(4px)',
           transition: 'box-shadow 0.5s',
         }}>
-          <Tabs value={role} centered sx={{ mb: 3, width: '100%' }} textColor="inherit" indicatorColor="primary" TabIndicatorProps={{ style: { background: 'linear-gradient(90deg,#ff6e7f,#bfe9ff)' } }}>
+          <Tabs value={role} centered sx={{ mb: 3, width: '100%', minHeight: { xs: 36, sm: 48 } }} textColor="inherit" indicatorColor="primary" TabIndicatorProps={{ style: { background: 'linear-gradient(90deg,#ff6e7f,#bfe9ff)' } }}>
             <Tab label={tabLabels[role]} value={role} sx={{ color: 'linear-gradient(90deg,#ff6e7f,#bfe9ff)', fontWeight: 700, fontSize: '1.1rem', background: 'linear-gradient(90deg,#ff6e7f,#bfe9ff)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }} />
           </Tabs>
-          <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3, mt: 2 }}>
+          <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3, mt: { xs: 2, sm: 2, md: 2 } }}>
             {tabContent[role]}
           </Box>
         </Paper>
@@ -369,12 +441,17 @@ function Dashboard({ role, onLogout }) {
 
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [view, setView] = useState('welcome'); // 'welcome' | 'login' | 'dashboard'
   const [role, setRole] = useState('school');
 
-  return loggedIn
-    ? <Dashboard role={role} onLogout={() => setLoggedIn(false)} />
-    : <Login onLogin={r => { setRole(r); setLoggedIn(true); }} />;
+  if (view === 'welcome') {
+    return <WelcomePage onLoginClick={() => setView('login')} />;
+  }
+  if (view === 'login') {
+    return <Login onLogin={r => { setRole(r); setView('dashboard'); }} onBack={() => setView('welcome')} />;
+  }
+  // view === 'dashboard'
+  return <Dashboard role={role} onLogout={() => setView('welcome')} />;
 }
 
 export default App
