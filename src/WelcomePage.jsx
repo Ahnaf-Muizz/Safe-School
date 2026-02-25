@@ -196,7 +196,7 @@ a family built on heart, purpose, and the belief that every voice matters.  </Ty
 
          {/* YouTube Video 1 Placeholder */}
 <Box sx={{ width: '100%', bgcolor: 'rgba(0,230,118,0.10)', borderRadius: 2, mb: 2, p: 2, display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
-  <Typography variant="h6" sx={{ color: '#00e676', fontWeight: 700, mb: 1 }}>Cela the Calming Llama: Quiet Prevention, Big Impact</Typography>
+  <Typography variant="h6" sx={{ color: '#00e676', fontWeight: 700, mb: 1 }}>SafeSchool Commercial</Typography>
 
   {/* Responsive container for the video */}
   <Box sx={{
