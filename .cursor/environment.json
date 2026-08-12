@@ -1,0 +1,17 @@
+{
+  "name": "SafeSchools",
+  "install": "npm ci",
+  "terminals": [
+    {
+      "name": "vite-dev",
+      "command": "npm run dev -- --host 0.0.0.0",
+      "description": "Vite dev server for the SafeSchools React app (http://localhost:5173/Safe-School/)."
+    }
+  ],
+  "ports": [
+    {
+      "name": "vite",
+      "port": 5173
+    }
+  ]
+}
